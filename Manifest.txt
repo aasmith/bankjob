@@ -2,6 +2,9 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
-bin/bankjob
 lib/bankjob.rb
+lib/fetchers/citi_cards.rb
+lib/fetchers/scottrade.rb
+lib/fetchers/us_bank.rb
+lib/ofx_client.rb
 test/test_bankjob.rb
