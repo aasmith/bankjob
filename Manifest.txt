@@ -1,0 +1,7 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/bankjob
+lib/bankjob.rb
+test/test_bankjob.rb
