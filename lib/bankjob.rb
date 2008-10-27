@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'metaid'
 
 # Required by fetchers
 require 'mechanize'
@@ -10,26 +9,19 @@ module BankJob
 
   class Fetcher
     @@fetchers = []
-    @@meta = {}
 
     # class methods
     class << self
       # name, description
       def needs(*args)
-        p = meta_def :needs do |*args|
-          @needs ||= []
-          args.empty? ? @needs : @needs << [*args]
-        end
-        p.call(*args)
+        (@__needs ||= []) << [*args]
+        @__needs
       end
 
       %w(institution description ofx_fid).each do |m|
         define_method m do |*args|
-          p = meta_def m do |*args|
-            @meta ||= {}
-            args.empty? ? @meta[m] : @meta[m] = args.first
-          end
-          p.call(*args)
+          instance_variable_set("@__#{m}", args.first) unless args.empty?
+          instance_variable_get("@__#{m}")
         end
       end
 
@@ -51,8 +43,19 @@ module BankJob
     # instance methods
     def initialize(opts)
       my_needs = self.class.needs.map{|a|a.first}
-      meta_eval { attr_reader(*(opts.keys & my_needs)) }
-      opts.each { |k, v| instance_variable_set("@#{k}", v) }
+
+      self.class.instance_eval do
+        (opts.keys & my_needs).each do |var|
+          define_method var do
+            instance_variable_get("@__#{var}")
+          end
+
+        end
+      end
+
+      (opts.keys & my_needs).each do |var|
+        instance_variable_set("@__#{var}", opts[var])
+      end
     end
   end
 end
