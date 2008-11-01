@@ -3,8 +3,10 @@ Manifest.txt
 README.txt
 Rakefile
 lib/bankjob.rb
-lib/fetchers/citi_cards.rb
+lib/fetchers/autogen.rb
 lib/fetchers/scottrade.rb
 lib/fetchers/us_bank.rb
 lib/ofx_client.rb
+scripts/gen.rb
+scripts/getfidata.sh
 test/test_bankjob.rb
