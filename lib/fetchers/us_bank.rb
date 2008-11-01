@@ -1,4 +1,4 @@
-class BankJob::UsBank < BankJob::Fetcher
+class BankJob::Bank::UsBank < BankJob::Fetcher
   USBANK_TZ = "America/Chicago"
 
   needs :username
