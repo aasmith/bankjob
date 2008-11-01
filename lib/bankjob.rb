@@ -25,6 +25,10 @@ module BankJob
         end
       end
 
+      def institution_type
+        parent.to_s.demodulize.downcase.to_sym
+      end
+
       def inherited(c)
         @@fetchers << c
       end
@@ -58,10 +62,24 @@ module BankJob
       end
     end
   end
+
+  [:cc, :bank, :invest].each do |t|
+    const_set(t.to_s.capitalize, Class.new(self.class))
+  end
+
+  class << self
+    @@disabled = []
+    def disabled; @@disabled; end
+    def disabled?(str); @@disabled.include?(str); end
+  end
+
 end
 
 require File.join(File.dirname(__FILE__), 'ofx_client')
 
 Dir.glob(File.join(File.dirname(__FILE__), 'fetchers', '*')).each do |fn|
-  require fn if fn =~ /[.]rb$/
+  require fn if fn =~ /[.]rb$/ && fn !~ /autogen/
 end
+
+# always require autogen last.
+require File.join(File.dirname(__FILE__), 'fetchers', 'autogen')

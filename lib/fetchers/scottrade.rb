@@ -1,4 +1,8 @@
-class BankJob::Scottrade < BankJob::Fetcher
+# Disable the autogen version, because Scottrade does not take an account number.
+# Providing one at fetch-time leads to an OK response, but with no data returned.
+BankJob.disabled << "Invest::AutogenScottradeInc"
+
+class BankJob::Invest::Scottrade < BankJob::Fetcher
   URL = "https://ofxstl.scottsave.com"
 
   needs :username, "This should also be your account number."
