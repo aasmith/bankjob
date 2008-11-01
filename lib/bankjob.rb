@@ -21,7 +21,7 @@ module BankJob
       %w(institution description ofx_fid).each do |m|
         define_method m do |*args|
           instance_variable_set("@__#{m}", args.first) unless args.empty?
-          instance_variable_get("@__#{m}")
+          instance_variable_get("@__#{m}") if instance_variable_defined?("@__#{m}")
         end
       end
 
