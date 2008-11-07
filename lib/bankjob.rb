@@ -14,7 +14,7 @@ module BankJob
     class << self
       # name, description
       def needs(*args)
-        (@__needs ||= []) << [*args]
+        (@__needs ||= []) << [*args] unless args.empty?
         @__needs
       end
 
