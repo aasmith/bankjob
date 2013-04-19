@@ -3,6 +3,7 @@ require 'rubygems'
 # Required by fetchers
 require 'mechanize'
 require 'active_support'
+require 'active_support/core_ext'
 
 module BankJob
   VERSION = '1.0.0'
